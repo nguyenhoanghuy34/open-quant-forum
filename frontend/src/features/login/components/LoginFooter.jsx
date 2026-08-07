@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function LoginFooter() {
     return (
         <footer className="login-footer">
@@ -6,9 +8,11 @@ function LoginFooter() {
 
                 Don't have an account?
 
-                <a href="#">
+                <Link to="/register">
+
                     Sign Up
-                </a>
+
+                </Link>
 
             </p>
 
