@@ -524,3 +524,46 @@ FOOTER
     color:#60a5fa;
 
 }
+
+
+.error-message{
+
+    color:#f87171;
+
+    font-size:12px;
+
+    margin-top:2px;
+
+}
+
+.input-error{
+
+    border-color:#ef4444 !important;
+
+}
+
+.auth-error{
+
+    padding:12px 14px;
+
+    border-radius:12px;
+
+    background:rgba(239,68,68,.10);
+
+    border:1px solid rgba(239,68,68,.25);
+
+    color:#fca5a5;
+
+    font-size:13px;
+
+}
+
+.login-button:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}

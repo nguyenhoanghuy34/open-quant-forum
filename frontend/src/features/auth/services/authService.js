@@ -9,7 +9,26 @@ const authApi = axios.create({
     },
 });
 
+authApi.interceptors.request.use(
+    (config) => {
+
+        const token = localStorage.getItem(
+            "access_token"
+        );
+
+        if (token) {
+            config.headers.Authorization =
+                `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+
 export async function registerUser(data) {
+
     const response = await authApi.post(
         "/auth/register",
         data
@@ -18,11 +37,31 @@ export async function registerUser(data) {
     return response.data;
 }
 
+
 export async function loginUser(data) {
+
     const response = await authApi.post(
         "/auth/login",
         data
     );
 
     return response.data;
+}
+
+
+export async function getCurrentUser() {
+
+    const response = await authApi.get(
+        "/users/me"
+    );
+
+    return response.data;
+}
+
+
+export function logoutUser() {
+
+    localStorage.removeItem(
+        "access_token"
+    );
 }
