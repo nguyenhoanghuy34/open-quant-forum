@@ -1,0 +1,116 @@
+.home-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 24px;
+
+    background: #09090b;
+
+    color: #ffffff;
+
+}
+
+
+.home-card {
+
+    width: 100%;
+
+    max-width: 480px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 24px;
+
+    background: rgba(24, 24, 27, 0.65);
+
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.35);
+
+}
+
+
+.home-icon {
+
+    width: 64px;
+
+    height: 64px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+}
+
+
+.home-card h1 {
+
+    margin: 0;
+
+    font-size: 28px;
+
+}
+
+
+.home-card p {
+
+    margin-top: 10px;
+
+    color: #a1a1aa;
+
+}
+
+
+.logout-button {
+
+    margin-top: 28px;
+
+    padding: 12px 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.logout-button:hover {
+
+    background: rgba(255, 255, 255, 0.12);
+
+}

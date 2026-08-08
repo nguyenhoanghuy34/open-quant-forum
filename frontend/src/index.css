@@ -60,3 +60,21 @@ body{
         linear-gradient(135deg,#050816,#0f172a);
 
 }
+
+.auth-loading {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #09090b;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+}

@@ -7,16 +7,28 @@ import {
 
 import LoginPage from "../features/login";
 import RegisterPage from "../features/register";
+import HomePage from "../features/home";
+
+import ProtectedRoute from "./ProtectedRoute";
+
 
 function AppRouter() {
+
     return (
         <BrowserRouter>
 
             <Routes>
 
+                {/* PUBLIC */}
+
                 <Route
                     path="/"
-                    element={<Navigate to="/login" replace />}
+                    element={
+                        <Navigate
+                            to="/home"
+                            replace
+                        />
+                    }
                 />
 
                 <Route
@@ -29,10 +41,36 @@ function AppRouter() {
                     element={<RegisterPage />}
                 />
 
+
+                {/* PROTECTED */}
+
+                <Route element={<ProtectedRoute />}>
+
+                    <Route
+                        path="/home"
+                        element={<HomePage />}
+                    />
+
+                </Route>
+
+
+                {/* FALLBACK */}
+
+                <Route
+                    path="*"
+                    element={
+                        <Navigate
+                            to="/home"
+                            replace
+                        />
+                    }
+                />
+
             </Routes>
 
         </BrowserRouter>
     );
 }
+
 
 export default AppRouter;

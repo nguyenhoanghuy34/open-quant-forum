@@ -9,6 +9,7 @@ const authApi = axios.create({
     },
 });
 
+
 authApi.interceptors.request.use(
     (config) => {
 
@@ -17,13 +18,39 @@ authApi.interceptors.request.use(
         );
 
         if (token) {
+
             config.headers.Authorization =
                 `Bearer ${token}`;
+
         }
 
         return config;
     },
+
     (error) => Promise.reject(error)
+);
+
+
+authApi.interceptors.response.use(
+    (response) => response,
+
+    (error) => {
+
+        if (error.response?.status === 401) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            if (
+                window.location.pathname !== "/login"
+            ) {
+                window.location.href = "/login";
+            }
+        }
+
+        return Promise.reject(error);
+    }
 );
 
 
@@ -65,3 +92,6 @@ export function logoutUser() {
         "access_token"
     );
 }
+
+
+export default authApi;
