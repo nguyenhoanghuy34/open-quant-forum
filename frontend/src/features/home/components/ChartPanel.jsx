@@ -23,6 +23,10 @@ function ChartPanel() {
     ] = useState("5m");
 
 
+    const isAvailable =
+        activeTimeframe === "5m";
+
+
     return (
         <section className="glass-panel chart-panel">
 
@@ -73,7 +77,34 @@ function ChartPanel() {
 
             <div className="chart-placeholder">
 
-                <CandlestickChart />
+                {isAvailable ? (
+
+                    <CandlestickChart />
+
+                ) : (
+
+                    <div className="chart-coming-soon">
+
+                        <div className="chart-coming-icon">
+                            ◇
+                        </div>
+
+                        <h3>
+                            {activeTimeframe} Candlestick Chart
+                        </h3>
+
+                        <p>
+                            {activeTimeframe} candle data
+                            is not available yet.
+                        </p>
+
+                        <span>
+                            Coming soon
+                        </span>
+
+                    </div>
+
+                )}
 
             </div>
 
