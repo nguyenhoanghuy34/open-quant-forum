@@ -8,17 +8,23 @@ from app.main import app
 from app.api.deps import get_database
 
 
-TEST_DATABASE_URL = (
-    "postgresql+psycopg2://postgres:postgres"
-    "@localhost:5432/open_quant_forum_test"
-)
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
 
+
+TEST_DATABASE_URL = URL.create(
+    drivername="postgresql+psycopg2",
+    username="postgres",
+    password="Hoanghuy@04",
+    host="localhost",
+    port=5432,
+    database="open_quant_forum_test",
+)
 
 engine = create_engine(
     TEST_DATABASE_URL,
     pool_pre_ping=True,
 )
-
 
 TestingSessionLocal = sessionmaker(
     bind=engine,
