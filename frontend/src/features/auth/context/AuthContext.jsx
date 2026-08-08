@@ -26,12 +26,28 @@ export function AuthProvider({ children }) {
         const token =
             localStorage.getItem("access_token");
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Không có token
+        |--------------------------------------------------------------------------
+        */
+
         if (!token) {
+
+            setUser(null);
 
             setLoading(false);
 
             return;
         }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Có token → lấy user từ backend
+        |--------------------------------------------------------------------------
+        */
 
         try {
 
@@ -49,6 +65,7 @@ export function AuthProvider({ children }) {
         } finally {
 
             setLoading(false);
+
         }
     };
 
@@ -60,6 +77,12 @@ export function AuthProvider({ children }) {
     }, []);
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Logout
+    |--------------------------------------------------------------------------
+    */
+
     const logout = () => {
 
         logoutUser();
@@ -70,10 +93,12 @@ export function AuthProvider({ children }) {
     };
 
 
-    const isAuthenticated = Boolean(user);
+    const isAuthenticated =
+        Boolean(user);
 
 
     return (
+
         <AuthContext.Provider
             value={{
                 user,
@@ -83,7 +108,9 @@ export function AuthProvider({ children }) {
                 refreshUser: loadUser,
             }}
         >
+
             {children}
+
         </AuthContext.Provider>
     );
 }
@@ -91,14 +118,18 @@ export function AuthProvider({ children }) {
 
 export function useAuthContext() {
 
-    const context = useContext(AuthContext);
+    const context =
+        useContext(AuthContext);
+
 
     if (!context) {
 
         throw new Error(
             "useAuthContext must be used inside AuthProvider"
         );
+
     }
+
 
     return context;
 }

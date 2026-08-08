@@ -10,12 +10,18 @@ const authApi = axios.create({
 });
 
 
+/*
+|--------------------------------------------------------------------------
+| Request Interceptor
+|--------------------------------------------------------------------------
+| Tự động gắn JWT vào request.
+*/
+
 authApi.interceptors.request.use(
     (config) => {
 
-        const token = localStorage.getItem(
-            "access_token"
-        );
+        const token =
+            localStorage.getItem("access_token");
 
         if (token) {
 
@@ -27,12 +33,30 @@ authApi.interceptors.request.use(
         return config;
     },
 
-    (error) => Promise.reject(error)
+    (error) => {
+
+        return Promise.reject(error);
+
+    }
 );
 
 
+/*
+|--------------------------------------------------------------------------
+| Response Interceptor
+|--------------------------------------------------------------------------
+| Nếu JWT hết hạn / không hợp lệ:
+|
+| 401 → xóa token → đưa user về login.
+*/
+
 authApi.interceptors.response.use(
-    (response) => response,
+
+    (response) => {
+
+        return response;
+
+    },
 
     (error) => {
 
@@ -42,17 +66,22 @@ authApi.interceptors.response.use(
                 "access_token"
             );
 
-            if (
-                window.location.pathname !== "/login"
-            ) {
-                window.location.href = "/login";
-            }
+            window.location.href = "/login";
+
         }
 
         return Promise.reject(error);
+
     }
+
 );
 
+
+/*
+|--------------------------------------------------------------------------
+| Authentication APIs
+|--------------------------------------------------------------------------
+*/
 
 export async function registerUser(data) {
 
@@ -92,6 +121,3 @@ export function logoutUser() {
         "access_token"
     );
 }
-
-
-export default authApi;
