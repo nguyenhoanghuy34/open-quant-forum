@@ -13,19 +13,23 @@ const API_WS_URL =
 
 function CandlestickChart() {
 
-    const chartContainerRef = useRef(null);
+    const containerRef =
+        useRef(null);
 
-    const chartRef = useRef(null);
+    const chartRef =
+        useRef(null);
 
-    const candleSeriesRef = useRef(null);
+    const candleSeriesRef =
+        useRef(null);
 
-    const volumeSeriesRef = useRef(null);
+    const volumeSeriesRef =
+        useRef(null);
 
 
     useEffect(() => {
 
         const container =
-            chartContainerRef.current;
+            containerRef.current;
 
         if (!container) {
             return;
@@ -35,6 +39,11 @@ function CandlestickChart() {
         const chart = createChart(
             container,
             {
+                width:
+                    container.clientWidth,
+
+                height: 500,
+
                 layout: {
                     background: {
                         color: "transparent",
@@ -58,11 +67,6 @@ function CandlestickChart() {
                 rightPriceScale: {
                     borderColor:
                         "rgba(255,255,255,0.08)",
-
-                    scaleMargins: {
-                        top: 0.08,
-                        bottom: 0.25,
-                    },
                 },
 
                 timeScale: {
@@ -73,37 +77,40 @@ function CandlestickChart() {
 
                     secondsVisible: false,
 
-                    rightOffset: 5,
+                    rightOffset: 8,
 
-                    barSpacing: 8,
+                    barSpacing: 10,
 
-                    minBarSpacing: 2,
+                    minBarSpacing: 1,
 
                     fixLeftEdge: false,
 
                     fixRightEdge: false,
                 },
 
-                crosshair: {
-                    mode: 1,
-                },
-
                 handleScroll: {
                     mouseWheel: true,
+
                     pressedMouseMove: true,
+
                     horzTouchDrag: true,
+
                     vertTouchDrag: false,
                 },
 
                 handleScale: {
                     mouseWheel: true,
+
                     pinch: true,
+
                     axisPressedMouseMove: true,
+
+                    axisDoubleClickReset: true,
                 },
 
-                width: container.clientWidth,
-
-                height: 500,
+                crosshair: {
+                    mode: 0,
+                },
             }
         );
 
@@ -123,6 +130,10 @@ function CandlestickChart() {
                     wickUpColor: "#22c55e",
 
                     wickDownColor: "#ef4444",
+
+                    lastValueVisible: true,
+
+                    priceLineVisible: true,
                 }
             );
 
@@ -135,21 +146,21 @@ function CandlestickChart() {
                         type: "volume",
                     },
 
-                    priceScaleId: "volume",
+                    priceScaleId: "",
                 }
             );
 
 
-        volumeSeries.priceScale()
+        volumeSeries
+            .priceScale()
             .applyOptions({
                 scaleMargins: {
                     top: 0.80,
+
                     bottom: 0,
                 },
             });
 
-
-        chartRef.current = chart;
 
         candleSeriesRef.current =
             candleSeries;
@@ -157,9 +168,14 @@ function CandlestickChart() {
         volumeSeriesRef.current =
             volumeSeries;
 
+        chartRef.current =
+            chart;
+
 
         const socket =
-            new WebSocket(API_WS_URL);
+            new WebSocket(
+                API_WS_URL
+            );
 
 
         socket.onopen = () => {
@@ -167,188 +183,305 @@ function CandlestickChart() {
             console.log(
                 "Market WebSocket connected"
             );
-
         };
 
 
         socket.onmessage = (event) => {
 
-            const message =
-                JSON.parse(event.data);
+            try {
 
-
-            /*
-             * Initial 300 candles
-             */
-            if (
-                message.type === "snapshot"
-            ) {
-
-                const candles =
-                    message.data.map(
-                        (candle) => {
-
-                            const time =
-                                Math.floor(
-                                    new Date(
-                                        candle.open_time
-                                    ).getTime() / 1000
-                                );
-
-
-                            return {
-                                time,
-
-                                open:
-                                    candle.open,
-
-                                high:
-                                    candle.high,
-
-                                low:
-                                    candle.low,
-
-                                close:
-                                    candle.close,
-                            };
-                        }
+                const message =
+                    JSON.parse(
+                        event.data
                     );
-
-
-                const volumes =
-                    message.data.map(
-                        (candle) => {
-
-                            const time =
-                                Math.floor(
-                                    new Date(
-                                        candle.open_time
-                                    ).getTime() / 1000
-                                );
-
-
-                            return {
-                                time,
-
-                                value:
-                                    candle.volume,
-
-                                color:
-                                    candle.close >=
-                                    candle.open
-                                        ? "rgba(34,197,94,0.35)"
-                                        : "rgba(239,68,68,0.35)",
-                            };
-                        }
-                    );
-
-
-                candleSeries.setData(
-                    candles
-                );
-
-
-                volumeSeries.setData(
-                    volumes
-                );
 
 
                 /*
-                 * IMPORTANT:
-                 *
-                 * Do NOT fit all 300 candles.
-                 *
-                 * Initially show roughly
-                 * the latest 70 candles.
+                 * ========================
+                 * HISTORICAL DATA
+                 * ========================
                  */
-                if (candles.length > 0) {
 
-                    const latestIndex =
-                        candles.length - 1;
+                if (
+                    message.type ===
+                    "snapshot"
+                ) {
 
-                    const firstVisible =
-                        Math.max(
-                            0,
-                            latestIndex - 70
-                        );
+                    const candles = [];
+
+                    const volumes = [];
 
 
-                    chart.timeScale()
-                        .setVisibleLogicalRange({
-                            from:
-                                firstVisible,
+                    for (
+                        const item
+                        of message.data
+                    ) {
 
-                            to:
-                                latestIndex + 5,
+                        const time =
+                            Math.floor(
+                                new Date(
+                                    item.open_time
+                                ).getTime() /
+                                1000
+                            );
+
+
+                        if (
+                            !Number.isFinite(
+                                time
+                            )
+                        ) {
+                            continue;
+                        }
+
+
+                        candles.push({
+
+                            time,
+
+                            open:
+                                Number(
+                                    item.open
+                                ),
+
+                            high:
+                                Number(
+                                    item.high
+                                ),
+
+                            low:
+                                Number(
+                                    item.low
+                                ),
+
+                            close:
+                                Number(
+                                    item.close
+                                ),
                         });
-                }
 
 
-                return;
-            }
+                        volumes.push({
+
+                            time,
+
+                            value:
+                                Number(
+                                    item.volume
+                                ),
+
+                            color:
+                                Number(
+                                    item.close
+                                ) >=
+                                Number(
+                                    item.open
+                                )
+                                    ? "rgba(34,197,94,0.35)"
+                                    : "rgba(239,68,68,0.35)",
+                        });
+                    }
 
 
-            /*
-             * Realtime candle update
-             */
-            if (
-                message.type === "candle"
-            ) {
-
-                const candle =
-                    message.data;
-
-
-                const time =
-                    Math.floor(
-                        new Date(
-                            candle.open_time
-                        ).getTime() / 1000
+                    candleSeries.setData(
+                        candles
                     );
 
 
-                candleSeries.update({
-                    time,
-
-                    open:
-                        candle.open,
-
-                    high:
-                        candle.high,
-
-                    low:
-                        candle.low,
-
-                    close:
-                        candle.close,
-                });
+                    volumeSeries.setData(
+                        volumes
+                    );
 
 
-                volumeSeries.update({
-                    time,
+                    console.log(
+                        "Loaded candles:",
+                        candles.length
+                    );
 
-                    value:
-                        candle.volume,
 
-                    color:
-                        candle.close >=
-                        candle.open
-                            ? "rgba(34,197,94,0.35)"
-                            : "rgba(239,68,68,0.35)",
-                });
+                    /*
+                     * Show latest 60 candles
+                     */
 
+                    if (
+                        candles.length > 0
+                    ) {
+
+                        const last =
+                            candles.length -
+                            1;
+
+
+                        chart
+                            .timeScale()
+                            .setVisibleLogicalRange({
+                                from:
+                                    Math.max(
+                                        0,
+                                        last - 60
+                                    ),
+
+                                to:
+                                    last + 5,
+                            });
+                    }
+
+
+                    return;
+                }
+
+
+                /*
+                 * ========================
+                 * REALTIME CANDLE
+                 * ========================
+                 */
+
+                if (
+                    message.type ===
+                    "candle"
+                ) {
+
+                    const item =
+                        message.data;
+
+
+                    const time =
+                        Math.floor(
+                            new Date(
+                                item.open_time
+                            ).getTime() /
+                            1000
+                        );
+
+
+                    const open =
+                        Number(
+                            item.open
+                        );
+
+                    const high =
+                        Number(
+                            item.high
+                        );
+
+                    const low =
+                        Number(
+                            item.low
+                        );
+
+                    const close =
+                        Number(
+                            item.close
+                        );
+
+                    const volume =
+                        Number(
+                            item.volume
+                        );
+
+
+                    /*
+                     * Validate Binance data
+                     */
+
+                    if (
+                        !Number.isFinite(
+                            time
+                        ) ||
+                        !Number.isFinite(
+                            open
+                        ) ||
+                        !Number.isFinite(
+                            high
+                        ) ||
+                        !Number.isFinite(
+                            low
+                        ) ||
+                        !Number.isFinite(
+                            close
+                        ) ||
+                        !Number.isFinite(
+                            volume
+                        )
+                    ) {
+
+                        console.warn(
+                            "Invalid candle:",
+                            item
+                        );
+
+                        return;
+                    }
+
+
+                    /*
+                     * UPDATE CANDLE
+                     */
+
+                    candleSeries.update({
+
+                        time,
+
+                        open,
+
+                        high,
+
+                        low,
+
+                        close,
+                    });
+
+
+                    /*
+                     * UPDATE VOLUME
+                     */
+
+                    volumeSeries.update({
+
+                        time,
+
+                        value:
+                            volume,
+
+                        color:
+                            close >= open
+                                ? "rgba(34,197,94,0.35)"
+                                : "rgba(239,68,68,0.35)",
+                    });
+
+
+                    console.log(
+                        "Realtime candle:",
+                        {
+                            time,
+                            open,
+                            high,
+                            low,
+                            close,
+                            volume,
+                        }
+                    );
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "WebSocket message error:",
+                    error
+                );
             }
-
         };
 
 
-        socket.onerror = (error) => {
+        socket.onerror = (
+            error
+        ) => {
 
             console.error(
-                "Market WebSocket error:",
+                "WebSocket error:",
                 error
             );
-
         };
 
 
@@ -357,45 +490,40 @@ function CandlestickChart() {
             console.log(
                 "Market WebSocket disconnected"
             );
-
         };
 
 
-        const handleResize = () => {
+        const resizeObserver =
+            new ResizeObserver(() => {
 
-            if (!chartContainerRef.current) {
-                return;
-            }
+                if (
+                    !containerRef.current
+                ) {
+                    return;
+                }
 
 
-            chart.applyOptions({
-                width:
-                    chartContainerRef
-                        .current
-                        .clientWidth,
+                chart.applyOptions({
+                    width:
+                        containerRef
+                            .current
+                            .clientWidth,
+                });
             });
 
-        };
 
-
-        window.addEventListener(
-            "resize",
-            handleResize
+        resizeObserver.observe(
+            container
         );
 
 
         return () => {
 
-            window.removeEventListener(
-                "resize",
-                handleResize
-            );
-
+            resizeObserver.disconnect();
 
             socket.close();
 
             chart.remove();
-
         };
 
     }, []);
@@ -403,7 +531,7 @@ function CandlestickChart() {
 
     return (
         <div
-            ref={chartContainerRef}
+            ref={containerRef}
             className="candlestick-chart"
         />
     );
