@@ -1,116 +1,464 @@
-.home-page {
-
+.home-layout {
     min-height: 100vh;
 
     display: flex;
+    flex-direction: column;
 
-    align-items: center;
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(255, 255, 255, 0.045),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(255, 255, 255, 0.035),
+            transparent 30%
+        ),
+        #09090b;
 
-    justify-content: center;
-
-    padding: 24px;
-
-    background: #09090b;
-
-    color: #ffffff;
-
+    color: #fafafa;
 }
 
 
-.home-card {
+/* =========================
+   NAVBAR
+========================= */
 
-    width: 100%;
-
-    max-width: 480px;
-
-    padding: 40px;
-
-    text-align: center;
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
-
-    border-radius: 24px;
-
-    background: rgba(24, 24, 27, 0.65);
-
-    backdrop-filter: blur(20px);
-
-    -webkit-backdrop-filter: blur(20px);
-
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.35);
-
-}
-
-
-.home-icon {
-
-    width: 64px;
-
-    height: 64px;
-
-    margin: 0 auto 20px;
+.home-navbar {
+    height: 72px;
 
     display: flex;
-
     align-items: center;
+    justify-content: space-between;
 
+    padding: 0 32px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    background:
+        rgba(9, 9, 11, 0.72);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+
+.home-logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    font-weight: 600;
+}
+
+
+.logo-mark {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
     justify-content: center;
 
-    border-radius: 18px;
+    border-radius: 10px;
 
-    background: rgba(255, 255, 255, 0.08);
+    background:
+        rgba(255, 255, 255, 0.09);
 
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    font-size: 12px;
+    font-weight: 700;
 }
 
 
-.home-card h1 {
-
-    margin: 0;
-
-    font-size: 28px;
-
+.logo-text {
+    font-size: 15px;
+    letter-spacing: -0.2px;
 }
 
 
-.home-card p {
+.user-avatar {
+    width: 38px;
+    height: 38px;
 
-    margin-top: 10px;
-
-    color: #a1a1aa;
-
-}
-
-
-.logout-button {
-
-    margin-top: 28px;
-
-    padding: 12px 20px;
-
-    display: inline-flex;
-
+    display: flex;
     align-items: center;
+    justify-content: center;
 
-    gap: 8px;
+    border-radius: 50%;
 
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
 
-    border-radius: 12px;
+    background:
+        rgba(255, 255, 255, 0.07);
 
-    background: rgba(255, 255, 255, 0.06);
-
-    color: #ffffff;
+    color: #fff;
 
     cursor: pointer;
 
     transition: 0.2s ease;
+}
+
+
+.user-avatar:hover {
+    background:
+        rgba(255, 255, 255, 0.13);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.home-main {
+    flex: 1;
+
+    width: 100%;
+    max-width: 1600px;
+
+    margin: 0 auto;
+
+    padding: 28px 32px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(320px, 0.85fr);
+
+    gap: 24px;
+}
+
+
+/* =========================
+   GLASS PANEL
+========================= */
+
+.glass-panel {
+    min-height: 620px;
+
+    padding: 24px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 24px;
+
+    background:
+        rgba(24, 24, 27, 0.58);
+
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.25);
+}
+
+
+.panel-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 16px;
+}
+
+
+.panel-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #71717a;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.panel-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    letter-spacing: -0.5px;
+}
+
+
+.coming-soon {
+    padding: 6px 9px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 8px;
+
+    color: #71717a;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   CHART
+========================= */
+
+.chart-placeholder {
+    height: calc(100% - 72px);
+
+    min-height: 500px;
+
+    margin-top: 24px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.055);
+
+    border-radius: 18px;
+
+    background:
+        rgba(0, 0, 0, 0.16);
+}
+
+
+.placeholder-grid {
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px
+        );
+
+    background-size: 48px 48px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent
+        );
+}
+
+
+.placeholder-content {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.placeholder-icon,
+.prediction-icon {
+    width: 54px;
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 16px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.09);
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    color: #a1a1aa;
+
+    font-size: 24px;
+}
+
+
+.placeholder-content h3,
+.prediction-placeholder h3 {
+    margin: 0;
+
+    font-size: 15px;
+}
+
+
+.placeholder-content p,
+.prediction-placeholder p {
+    max-width: 280px;
+
+    margin: 8px 0 0;
+
+    color: #71717a;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   PREDICTION
+========================= */
+
+.prediction-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.prediction-placeholder {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.prediction-stats {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin-top: 32px;
+}
+
+
+.prediction-stats > div {
+    padding: 14px;
+
+    text-align: left;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.06);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+}
+
+
+.prediction-stats span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #71717a;
+
+    font-size: 10px;
+}
+
+
+.prediction-stats strong {
+    font-size: 18px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.home-footer {
+    min-height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 32px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.06);
+
+    color: #52525b;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .home-main {
+        grid-template-columns: 1fr;
+    }
+
+    .glass-panel {
+        min-height: 500px;
+    }
 
 }
 
 
-.logout-button:hover {
+@media (max-width: 600px) {
 
-    background: rgba(255, 255, 255, 0.12);
+    .home-navbar {
+        padding: 0 18px;
+    }
+
+    .logo-text {
+        display: none;
+    }
+
+    .home-main {
+        padding: 18px;
+
+        gap: 18px;
+    }
+
+    .glass-panel {
+        padding: 18px;
+    }
+
+    .chart-placeholder {
+        min-height: 400px;
+    }
+
+    .home-footer {
+        padding: 0 18px;
+    }
 
 }
