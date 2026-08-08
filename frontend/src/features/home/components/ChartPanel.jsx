@@ -1,10 +1,35 @@
+import { useState } from "react";
+
+import CandlestickChart from "./CandlestickChart";
+
+
+const TIMEFRAMES = [
+    "1m",
+    "5m",
+    "10m",
+    "15m",
+    "30m",
+    "1h",
+    "4h",
+    "1D",
+];
+
+
 function ChartPanel() {
+
+    const [
+        activeTimeframe,
+        setActiveTimeframe,
+    ] = useState("5m");
+
+
     return (
         <section className="glass-panel chart-panel">
 
             <div className="panel-header">
 
                 <div>
+
                     <span className="panel-label">
                         MARKET OVERVIEW
                     </span>
@@ -12,35 +37,43 @@ function ChartPanel() {
                     <h2>
                         Price Chart
                     </h2>
+
                 </div>
 
-                <span className="coming-soon">
-                    Coming soon
-                </span>
+
+                <div className="timeframe-nav">
+
+                    {TIMEFRAMES.map(
+                        (timeframe) => (
+
+                            <button
+                                key={timeframe}
+                                type="button"
+                                className={
+                                    activeTimeframe === timeframe
+                                        ? "timeframe-button active"
+                                        : "timeframe-button"
+                                }
+                                onClick={() =>
+                                    setActiveTimeframe(
+                                        timeframe
+                                    )
+                                }
+                            >
+                                {timeframe}
+                            </button>
+
+                        )
+                    )}
+
+                </div>
 
             </div>
 
 
             <div className="chart-placeholder">
 
-                <div className="placeholder-grid" />
-
-                <div className="placeholder-content">
-
-                    <div className="placeholder-icon">
-                        ◇
-                    </div>
-
-                    <h3>
-                        Market chart
-                    </h3>
-
-                    <p>
-                        Interactive market visualization
-                        will appear here.
-                    </p>
-
-                </div>
+                <CandlestickChart />
 
             </div>
 

@@ -197,6 +197,78 @@
     letter-spacing: -0.5px;
 }
 
+.timeframe-nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    padding: 4px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+
+.timeframe-nav::-webkit-scrollbar {
+    display: none;
+}
+
+
+.timeframe-button {
+    min-width: 34px;
+
+    padding: 6px 8px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #71717a;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.timeframe-button:hover {
+    color: #d4d4d8;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+}
+
+
+.timeframe-button.active {
+    color: #ffffff;
+
+    background:
+        rgba(255, 255, 255, 0.10);
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(255, 255, 255, 0.08);
+}
+
 
 .coming-soon {
     padding: 6px 9px;
@@ -220,9 +292,7 @@
 ========================= */
 
 .chart-placeholder {
-    height: calc(100% - 72px);
-
-    min-height: 500px;
+    height: 500px;
 
     margin-top: 24px;
 
@@ -461,4 +531,27 @@
         padding: 0 18px;
     }
 
+}
+
+
+@media (max-width: 700px) {
+
+    .panel-header {
+        flex-direction: column;
+    }
+
+    .timeframe-nav {
+        width: 100%;
+    }
+
+    .timeframe-button {
+        flex: 1;
+    }
+
+}
+
+
+.candlestick-chart {
+    width: 100%;
+    height: 500px;
 }
