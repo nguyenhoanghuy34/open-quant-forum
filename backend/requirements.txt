@@ -13,3 +13,9 @@ passlib[argon2]
 
 python-multipart
 email-validator
+
+
+# test
+pytest
+pytest-asyncio
+httpx
