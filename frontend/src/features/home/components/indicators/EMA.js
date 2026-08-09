@@ -14,6 +14,8 @@ export function createEMA(
         chart.addSeries(
             LineSeries,
             {
+                color: "#f59e0b",
+
                 lineWidth: 2,
 
                 lastValueVisible: false,
@@ -24,15 +26,18 @@ export function createEMA(
             }
         );
 
+
     const data =
         calculateEMA(
             candles,
             period
         );
 
+
     if (data.length > 0) {
         emaSeries.setData(data);
     }
+
 
     return emaSeries;
 }
@@ -47,11 +52,13 @@ export function updateEMA(
         return;
     }
 
+
     const data =
         calculateEMA(
             candles,
             period
         );
+
 
     if (data.length > 0) {
         emaSeries.setData(data);

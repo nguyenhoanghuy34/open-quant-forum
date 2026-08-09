@@ -14,6 +14,8 @@ export function createSMA(
         chart.addSeries(
             LineSeries,
             {
+                color: "#3b82f6",
+
                 lineWidth: 2,
 
                 lastValueVisible: false,
@@ -24,15 +26,18 @@ export function createSMA(
             }
         );
 
+
     const data =
         calculateSMA(
             candles,
             period
         );
 
+
     if (data.length > 0) {
         smaSeries.setData(data);
     }
+
 
     return smaSeries;
 }
@@ -47,11 +52,13 @@ export function updateSMA(
         return;
     }
 
+
     const data =
         calculateSMA(
             candles,
             period
         );
+
 
     if (data.length > 0) {
         smaSeries.setData(data);

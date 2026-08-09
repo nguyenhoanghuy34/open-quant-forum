@@ -41,12 +41,6 @@ function CandlestickChart() {
     const emaSeriesRef =
         useRef(null);
 
-    /*
-     * Keep all loaded candles in memory.
-     *
-     * SMA and EMA both need historical
-     * candle data to calculate indicators.
-     */
     const candlesRef =
         useRef([]);
 
@@ -145,7 +139,7 @@ function CandlestickChart() {
 
 
         // =====================================================
-        // CANDLESTICK SERIES
+        // CANDLESTICK
         // =====================================================
 
         const candleSeries =
@@ -172,7 +166,7 @@ function CandlestickChart() {
 
 
         // =====================================================
-        // VOLUME SERIES
+        // VOLUME
         // =====================================================
 
         const volumeSeries =
@@ -200,7 +194,7 @@ function CandlestickChart() {
 
 
         // =====================================================
-        // SAVE SERIES REFERENCES
+        // REFERENCES
         // =====================================================
 
         candleSeriesRef.current =
@@ -214,7 +208,7 @@ function CandlestickChart() {
 
 
         // =====================================================
-        // CREATE WEBSOCKET
+        // WEBSOCKET
         // =====================================================
 
         const socket =
@@ -242,7 +236,7 @@ function CandlestickChart() {
 
 
                 // =================================================
-                // HISTORICAL DATA
+                // HISTORICAL SNAPSHOT
                 // =================================================
 
                 if (
@@ -305,10 +299,6 @@ function CandlestickChart() {
                             );
 
 
-                        // =============================================
-                        // VALIDATE HISTORICAL CANDLE
-                        // =============================================
-
                         if (
                             !Number.isFinite(
                                 open
@@ -331,10 +321,6 @@ function CandlestickChart() {
                         }
 
 
-                        // =============================================
-                        // CANDLE DATA
-                        // =============================================
-
                         candles.push({
 
                             time,
@@ -348,10 +334,6 @@ function CandlestickChart() {
                             close,
                         });
 
-
-                        // =============================================
-                        // VOLUME DATA
-                        // =============================================
 
                         volumes.push({
 
@@ -369,7 +351,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // SAVE HISTORICAL CANDLES
+                    // SAVE DATA
                     // =================================================
 
                     candlesRef.current =
@@ -395,7 +377,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // CREATE SMA20
+                    // SMA 20
                     // =================================================
 
                     smaSeriesRef.current =
@@ -407,7 +389,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // CREATE EMA20
+                    // EMA 20
                     // =================================================
 
                     emaSeriesRef.current =
@@ -424,18 +406,8 @@ function CandlestickChart() {
                     );
 
 
-                    console.log(
-                        "SMA20 initialized"
-                    );
-
-
-                    console.log(
-                        "EMA20 initialized"
-                    );
-
-
                     // =================================================
-                    // SHOW LATEST 60 CANDLES
+                    // SHOW LATEST CANDLES
                     // =================================================
 
                     if (
@@ -514,7 +486,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // VALIDATE REALTIME DATA
+                    // VALIDATE
                     // =================================================
 
                     if (
@@ -584,7 +556,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // UPDATE LOCAL CANDLE BUFFER
+                    // UPDATE LOCAL DATA
                     // =================================================
 
                     const candles =
@@ -600,7 +572,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // CURRENT CANDLE UPDATE
+                    // CURRENT CANDLE
                     // =================================================
 
                     if (
@@ -649,7 +621,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // LIMIT FRONTEND BUFFER
+                    // LIMIT BUFFER
                     // =================================================
 
                     if (
@@ -690,19 +662,6 @@ function CandlestickChart() {
                             20
                         );
                     }
-
-
-                    console.log(
-                        "Realtime candle:",
-                        {
-                            time,
-                            open,
-                            high,
-                            low,
-                            close,
-                            volume,
-                        }
-                    );
                 }
 
             } catch (error) {
@@ -743,7 +702,7 @@ function CandlestickChart() {
 
 
         // =====================================================
-        // RESPONSIVE CHART
+        // RESPONSIVE
         // =====================================================
 
         const resizeObserver =
@@ -804,7 +763,125 @@ function CandlestickChart() {
         <div
             ref={containerRef}
             className="candlestick-chart"
-        />
+            style={{
+                position: "relative",
+            }}
+        >
+
+            {/* =========================================
+                INDICATOR LEGEND
+            ========================================= */}
+
+            <div
+                style={{
+                    position: "absolute",
+
+                    top: "12px",
+
+                    left: "12px",
+
+                    zIndex: 10,
+
+                    display: "flex",
+
+                    alignItems: "center",
+
+                    gap: "14px",
+
+                    padding: "7px 10px",
+
+                    borderRadius: "8px",
+
+                    background:
+                        "rgba(9,9,11,0.72)",
+
+                    backdropFilter:
+                        "blur(10px)",
+
+                    WebkitBackdropFilter:
+                        "blur(10px)",
+
+                    border:
+                        "1px solid rgba(255,255,255,0.08)",
+
+                    fontSize: "12px",
+
+                    color: "#a1a1aa",
+
+                    pointerEvents: "none",
+                }}
+            >
+
+                {/* SMA 20 */}
+
+                <div
+                    style={{
+                        display: "flex",
+
+                        alignItems: "center",
+
+                        gap: "6px",
+                    }}
+                >
+
+                    <span
+                        style={{
+                            width: "18px",
+
+                            height: "2px",
+
+                            background:
+                                "#3b82f6",
+
+                            display: "inline-block",
+
+                            borderRadius: "2px",
+                        }}
+                    />
+
+                    <span>
+                        SMA 20
+                    </span>
+
+                </div>
+
+
+                {/* EMA 20 */}
+
+                <div
+                    style={{
+                        display: "flex",
+
+                        alignItems: "center",
+
+                        gap: "6px",
+                    }}
+                >
+
+                    <span
+                        style={{
+                            width: "18px",
+
+                            height: "2px",
+
+                            background:
+                                "#f59e0b",
+
+                            display: "inline-block",
+
+                            borderRadius: "2px",
+                        }}
+                    />
+
+                    <span>
+                        EMA 20
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
     );
 }
 
