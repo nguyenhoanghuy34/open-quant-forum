@@ -6,6 +6,16 @@ import {
     HistogramSeries,
 } from "lightweight-charts";
 
+import {
+    createSMA,
+    updateSMA,
+} from "./indicators/SMA";
+
+import {
+    createEMA,
+    updateEMA,
+} from "./indicators/EMA";
+
 
 const API_WS_URL =
     "ws://127.0.0.1:8000/api/market-data/ws";
@@ -25,6 +35,21 @@ function CandlestickChart() {
     const volumeSeriesRef =
         useRef(null);
 
+    const smaSeriesRef =
+        useRef(null);
+
+    const emaSeriesRef =
+        useRef(null);
+
+    /*
+     * Keep all loaded candles in memory.
+     *
+     * SMA and EMA both need historical
+     * candle data to calculate indicators.
+     */
+    const candlesRef =
+        useRef([]);
+
 
     useEffect(() => {
 
@@ -35,6 +60,10 @@ function CandlestickChart() {
             return;
         }
 
+
+        // =====================================================
+        // CREATE CHART
+        // =====================================================
 
         const chart = createChart(
             container,
@@ -115,6 +144,10 @@ function CandlestickChart() {
         );
 
 
+        // =====================================================
+        // CANDLESTICK SERIES
+        // =====================================================
+
         const candleSeries =
             chart.addSeries(
                 CandlestickSeries,
@@ -137,6 +170,10 @@ function CandlestickChart() {
                 }
             );
 
+
+        // =====================================================
+        // VOLUME SERIES
+        // =====================================================
 
         const volumeSeries =
             chart.addSeries(
@@ -162,6 +199,10 @@ function CandlestickChart() {
             });
 
 
+        // =====================================================
+        // SAVE SERIES REFERENCES
+        // =====================================================
+
         candleSeriesRef.current =
             candleSeries;
 
@@ -171,6 +212,10 @@ function CandlestickChart() {
         chartRef.current =
             chart;
 
+
+        // =====================================================
+        // CREATE WEBSOCKET
+        // =====================================================
 
         const socket =
             new WebSocket(
@@ -196,11 +241,9 @@ function CandlestickChart() {
                     );
 
 
-                /*
-                 * ========================
-                 * HISTORICAL DATA
-                 * ========================
-                 */
+                // =================================================
+                // HISTORICAL DATA
+                // =================================================
 
                 if (
                     message.type ===
@@ -231,66 +274,148 @@ function CandlestickChart() {
                                 time
                             )
                         ) {
+
                             continue;
                         }
 
+
+                        const open =
+                            Number(
+                                item.open
+                            );
+
+                        const high =
+                            Number(
+                                item.high
+                            );
+
+                        const low =
+                            Number(
+                                item.low
+                            );
+
+                        const close =
+                            Number(
+                                item.close
+                            );
+
+                        const volume =
+                            Number(
+                                item.volume
+                            );
+
+
+                        // =============================================
+                        // VALIDATE HISTORICAL CANDLE
+                        // =============================================
+
+                        if (
+                            !Number.isFinite(
+                                open
+                            ) ||
+                            !Number.isFinite(
+                                high
+                            ) ||
+                            !Number.isFinite(
+                                low
+                            ) ||
+                            !Number.isFinite(
+                                close
+                            ) ||
+                            !Number.isFinite(
+                                volume
+                            )
+                        ) {
+
+                            continue;
+                        }
+
+
+                        // =============================================
+                        // CANDLE DATA
+                        // =============================================
 
                         candles.push({
 
                             time,
 
-                            open:
-                                Number(
-                                    item.open
-                                ),
+                            open,
 
-                            high:
-                                Number(
-                                    item.high
-                                ),
+                            high,
 
-                            low:
-                                Number(
-                                    item.low
-                                ),
+                            low,
 
-                            close:
-                                Number(
-                                    item.close
-                                ),
+                            close,
                         });
 
+
+                        // =============================================
+                        // VOLUME DATA
+                        // =============================================
 
                         volumes.push({
 
                             time,
 
                             value:
-                                Number(
-                                    item.volume
-                                ),
+                                volume,
 
                             color:
-                                Number(
-                                    item.close
-                                ) >=
-                                Number(
-                                    item.open
-                                )
+                                close >= open
                                     ? "rgba(34,197,94,0.35)"
                                     : "rgba(239,68,68,0.35)",
                         });
                     }
 
 
+                    // =================================================
+                    // SAVE HISTORICAL CANDLES
+                    // =================================================
+
+                    candlesRef.current =
+                        candles;
+
+
+                    // =================================================
+                    // DRAW CANDLES
+                    // =================================================
+
                     candleSeries.setData(
                         candles
                     );
 
 
+                    // =================================================
+                    // DRAW VOLUME
+                    // =================================================
+
                     volumeSeries.setData(
                         volumes
                     );
+
+
+                    // =================================================
+                    // CREATE SMA20
+                    // =================================================
+
+                    smaSeriesRef.current =
+                        createSMA(
+                            chart,
+                            candlesRef.current,
+                            20
+                        );
+
+
+                    // =================================================
+                    // CREATE EMA20
+                    // =================================================
+
+                    emaSeriesRef.current =
+                        createEMA(
+                            chart,
+                            candlesRef.current,
+                            20
+                        );
 
 
                     console.log(
@@ -299,17 +424,26 @@ function CandlestickChart() {
                     );
 
 
-                    /*
-                     * Show latest 60 candles
-                     */
+                    console.log(
+                        "SMA20 initialized"
+                    );
+
+
+                    console.log(
+                        "EMA20 initialized"
+                    );
+
+
+                    // =================================================
+                    // SHOW LATEST 60 CANDLES
+                    // =================================================
 
                     if (
                         candles.length > 0
                     ) {
 
                         const last =
-                            candles.length -
-                            1;
+                            candles.length - 1;
 
 
                         chart
@@ -331,11 +465,9 @@ function CandlestickChart() {
                 }
 
 
-                /*
-                 * ========================
-                 * REALTIME CANDLE
-                 * ========================
-                 */
+                // =================================================
+                // REALTIME CANDLE
+                // =================================================
 
                 if (
                     message.type ===
@@ -381,9 +513,9 @@ function CandlestickChart() {
                         );
 
 
-                    /*
-                     * Validate Binance data
-                     */
+                    // =================================================
+                    // VALIDATE REALTIME DATA
+                    // =================================================
 
                     if (
                         !Number.isFinite(
@@ -415,9 +547,9 @@ function CandlestickChart() {
                     }
 
 
-                    /*
-                     * UPDATE CANDLE
-                     */
+                    // =================================================
+                    // UPDATE CANDLE
+                    // =================================================
 
                     candleSeries.update({
 
@@ -433,9 +565,9 @@ function CandlestickChart() {
                     });
 
 
-                    /*
-                     * UPDATE VOLUME
-                     */
+                    // =================================================
+                    // UPDATE VOLUME
+                    // =================================================
 
                     volumeSeries.update({
 
@@ -449,6 +581,115 @@ function CandlestickChart() {
                                 ? "rgba(34,197,94,0.35)"
                                 : "rgba(239,68,68,0.35)",
                     });
+
+
+                    // =================================================
+                    // UPDATE LOCAL CANDLE BUFFER
+                    // =================================================
+
+                    const candles =
+                        candlesRef.current;
+
+
+                    const lastIndex =
+                        candles.length - 1;
+
+
+                    const lastCandle =
+                        candles[lastIndex];
+
+
+                    // =================================================
+                    // CURRENT CANDLE UPDATE
+                    // =================================================
+
+                    if (
+                        lastCandle &&
+                        lastCandle.time === time
+                    ) {
+
+                        candles[lastIndex] = {
+
+                            time,
+
+                            open,
+
+                            high,
+
+                            low,
+
+                            close,
+                        };
+                    }
+
+
+                    // =================================================
+                    // NEW CANDLE
+                    // =================================================
+
+                    else if (
+                        !lastCandle ||
+                        time >
+                            lastCandle.time
+                    ) {
+
+                        candles.push({
+
+                            time,
+
+                            open,
+
+                            high,
+
+                            low,
+
+                            close,
+                        });
+                    }
+
+
+                    // =================================================
+                    // LIMIT FRONTEND BUFFER
+                    // =================================================
+
+                    if (
+                        candles.length > 1000
+                    ) {
+
+                        candles.shift();
+                    }
+
+
+                    // =================================================
+                    // UPDATE SMA20
+                    // =================================================
+
+                    if (
+                        smaSeriesRef.current
+                    ) {
+
+                        updateSMA(
+                            smaSeriesRef.current,
+                            candles,
+                            20
+                        );
+                    }
+
+
+                    // =================================================
+                    // UPDATE EMA20
+                    // =================================================
+
+                    if (
+                        emaSeriesRef.current
+                    ) {
+
+                        updateEMA(
+                            emaSeriesRef.current,
+                            candles,
+                            20
+                        );
+                    }
 
 
                     console.log(
@@ -474,6 +715,10 @@ function CandlestickChart() {
         };
 
 
+        // =====================================================
+        // WEBSOCKET ERROR
+        // =====================================================
+
         socket.onerror = (
             error
         ) => {
@@ -485,6 +730,10 @@ function CandlestickChart() {
         };
 
 
+        // =====================================================
+        // WEBSOCKET CLOSE
+        // =====================================================
+
         socket.onclose = () => {
 
             console.log(
@@ -493,17 +742,23 @@ function CandlestickChart() {
         };
 
 
+        // =====================================================
+        // RESPONSIVE CHART
+        // =====================================================
+
         const resizeObserver =
             new ResizeObserver(() => {
 
                 if (
                     !containerRef.current
                 ) {
+
                     return;
                 }
 
 
                 chart.applyOptions({
+
                     width:
                         containerRef
                             .current
@@ -517,6 +772,10 @@ function CandlestickChart() {
         );
 
 
+        // =====================================================
+        // CLEANUP
+        // =====================================================
+
         return () => {
 
             resizeObserver.disconnect();
@@ -524,6 +783,18 @@ function CandlestickChart() {
             socket.close();
 
             chart.remove();
+
+            candlesRef.current = [];
+
+            smaSeriesRef.current = null;
+
+            emaSeriesRef.current = null;
+
+            candleSeriesRef.current = null;
+
+            volumeSeriesRef.current = null;
+
+            chartRef.current = null;
         };
 
     }, []);
