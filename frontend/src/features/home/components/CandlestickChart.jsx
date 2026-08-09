@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
     createChart,
@@ -23,6 +23,21 @@ const API_WS_URL =
 
 function CandlestickChart() {
 
+    // =====================================================
+    // INDICATOR VISIBILITY
+    // =====================================================
+
+    const [showSMA, setShowSMA] =
+        useState(true);
+
+    const [showEMA, setShowEMA] =
+        useState(true);
+
+
+    // =====================================================
+    // REFS
+    // =====================================================
+
     const containerRef =
         useRef(null);
 
@@ -45,6 +60,10 @@ function CandlestickChart() {
         useRef([]);
 
 
+    // =====================================================
+    // CREATE CHART
+    // =====================================================
+
     useEffect(() => {
 
         const container =
@@ -54,10 +73,6 @@ function CandlestickChart() {
             return;
         }
 
-
-        // =====================================================
-        // CREATE CHART
-        // =====================================================
 
         const chart = createChart(
             container,
@@ -194,7 +209,7 @@ function CandlestickChart() {
 
 
         // =====================================================
-        // REFERENCES
+        // SAVE REFERENCES
         // =====================================================
 
         candleSeriesRef.current =
@@ -350,10 +365,6 @@ function CandlestickChart() {
                     }
 
 
-                    // =================================================
-                    // SAVE DATA
-                    // =================================================
-
                     candlesRef.current =
                         candles;
 
@@ -377,37 +388,44 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // SMA 20
+                    // CREATE SMA
                     // =================================================
 
                     smaSeriesRef.current =
                         createSMA(
                             chart,
-                            candlesRef.current,
+                            candles,
                             20
                         );
 
 
                     // =================================================
-                    // EMA 20
+                    // CREATE EMA
                     // =================================================
 
                     emaSeriesRef.current =
                         createEMA(
                             chart,
-                            candlesRef.current,
+                            candles,
                             20
                         );
 
 
-                    console.log(
-                        "Loaded candles:",
-                        candles.length
-                    );
+                    // =================================================
+                    // INITIAL VISIBILITY
+                    // =================================================
+
+                    smaSeriesRef.current.applyOptions({
+                        visible: true,
+                    });
+
+                    emaSeriesRef.current.applyOptions({
+                        visible: true,
+                    });
 
 
                     // =================================================
-                    // SHOW LATEST CANDLES
+                    // SHOW LATEST 60
                     // =================================================
 
                     if (
@@ -556,7 +574,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // UPDATE LOCAL DATA
+                    // UPDATE LOCAL BUFFER
                     // =================================================
 
                     const candles =
@@ -570,10 +588,6 @@ function CandlestickChart() {
                     const lastCandle =
                         candles[lastIndex];
 
-
-                    // =================================================
-                    // CURRENT CANDLE
-                    // =================================================
 
                     if (
                         lastCandle &&
@@ -592,14 +606,8 @@ function CandlestickChart() {
 
                             close,
                         };
-                    }
 
-
-                    // =================================================
-                    // NEW CANDLE
-                    // =================================================
-
-                    else if (
+                    } else if (
                         !lastCandle ||
                         time >
                             lastCandle.time
@@ -633,7 +641,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // UPDATE SMA20
+                    // UPDATE SMA
                     // =================================================
 
                     if (
@@ -649,7 +657,7 @@ function CandlestickChart() {
 
 
                     // =================================================
-                    // UPDATE EMA20
+                    // UPDATE EMA
                     // =================================================
 
                     if (
@@ -759,7 +767,62 @@ function CandlestickChart() {
     }, []);
 
 
+    // =====================================================
+    // TOGGLE SMA
+    // =====================================================
+
+    const toggleSMA = () => {
+
+        setShowSMA(
+            (previous) => {
+
+                const next =
+                    !previous;
+
+                if (
+                    smaSeriesRef.current
+                ) {
+
+                    smaSeriesRef.current.applyOptions({
+                        visible: next,
+                    });
+                }
+
+                return next;
+            }
+        );
+    };
+
+
+    // =====================================================
+    // TOGGLE EMA
+    // =====================================================
+
+    const toggleEMA = () => {
+
+        setShowEMA(
+            (previous) => {
+
+                const next =
+                    !previous;
+
+                if (
+                    emaSeriesRef.current
+                ) {
+
+                    emaSeriesRef.current.applyOptions({
+                        visible: next,
+                    });
+                }
+
+                return next;
+            }
+        );
+    };
+
+
     return (
+
         <div
             ref={containerRef}
             className="candlestick-chart"
@@ -768,9 +831,9 @@ function CandlestickChart() {
             }}
         >
 
-            {/* =========================================
-                INDICATOR LEGEND
-            ========================================= */}
+            {/* =================================================
+                INDICATOR CONTROLS
+            ================================================= */}
 
             <div
                 style={{
@@ -786,11 +849,11 @@ function CandlestickChart() {
 
                     alignItems: "center",
 
-                    gap: "14px",
+                    gap: "6px",
 
-                    padding: "7px 10px",
+                    padding: "4px",
 
-                    borderRadius: "8px",
+                    borderRadius: "9px",
 
                     background:
                         "rgba(9,9,11,0.72)",
@@ -803,24 +866,48 @@ function CandlestickChart() {
 
                     border:
                         "1px solid rgba(255,255,255,0.08)",
-
-                    fontSize: "12px",
-
-                    color: "#a1a1aa",
-
-                    pointerEvents: "none",
                 }}
             >
 
-                {/* SMA 20 */}
+                {/* =================================================
+                    SMA BUTTON
+                ================================================= */}
 
-                <div
+                <button
+                    type="button"
+                    onClick={toggleSMA}
                     style={{
                         display: "flex",
 
                         alignItems: "center",
 
                         gap: "6px",
+
+                        padding:
+                            "6px 9px",
+
+                        border: "none",
+
+                        borderRadius: "6px",
+
+                        background:
+                            showSMA
+                                ? "rgba(59,130,246,0.16)"
+                                : "transparent",
+
+                        color:
+                            showSMA
+                                ? "#ffffff"
+                                : "#71717a",
+
+                        cursor: "pointer",
+
+                        fontSize: "12px",
+
+                        fontWeight: 500,
+
+                        transition:
+                            "all 0.15s ease",
                     }}
                 >
 
@@ -833,28 +920,63 @@ function CandlestickChart() {
                             background:
                                 "#3b82f6",
 
-                            display: "inline-block",
+                            display:
+                                "inline-block",
 
-                            borderRadius: "2px",
+                            borderRadius:
+                                "2px",
+
+                            opacity:
+                                showSMA
+                                    ? 1
+                                    : 0.35,
                         }}
                     />
 
-                    <span>
-                        SMA 20
-                    </span>
+                    SMA 20
 
-                </div>
+                </button>
 
 
-                {/* EMA 20 */}
+                {/* =================================================
+                    EMA BUTTON
+                ================================================= */}
 
-                <div
+                <button
+                    type="button"
+                    onClick={toggleEMA}
                     style={{
                         display: "flex",
 
                         alignItems: "center",
 
                         gap: "6px",
+
+                        padding:
+                            "6px 9px",
+
+                        border: "none",
+
+                        borderRadius: "6px",
+
+                        background:
+                            showEMA
+                                ? "rgba(245,158,11,0.16)"
+                                : "transparent",
+
+                        color:
+                            showEMA
+                                ? "#ffffff"
+                                : "#71717a",
+
+                        cursor: "pointer",
+
+                        fontSize: "12px",
+
+                        fontWeight: 500,
+
+                        transition:
+                            "all 0.15s ease",
                     }}
                 >
 
@@ -867,17 +989,22 @@ function CandlestickChart() {
                             background:
                                 "#f59e0b",
 
-                            display: "inline-block",
+                            display:
+                                "inline-block",
 
-                            borderRadius: "2px",
+                            borderRadius:
+                                "2px",
+
+                            opacity:
+                                showEMA
+                                    ? 1
+                                    : 0.35,
                         }}
                     />
 
-                    <span>
-                        EMA 20
-                    </span>
+                    EMA 20
 
-                </div>
+                </button>
 
             </div>
 
