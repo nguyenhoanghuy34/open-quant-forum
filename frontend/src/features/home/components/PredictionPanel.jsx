@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+
+const API_WS_URL =
+    "ws://127.0.0.1:8000/api/market-data/ws";
 
 
 function PredictionPanel() {
@@ -6,13 +10,88 @@ function PredictionPanel() {
     const [selectedModel, setSelectedModel] =
         useState("Chronos-2");
 
+    const [currentPrice, setCurrentPrice] =
+        useState(null);
+
+
+    // =====================================================
+    // REALTIME MARKET PRICE
+    // =====================================================
+
+    useEffect(() => {
+
+        const socket =
+            new WebSocket(
+                API_WS_URL
+            );
+
+
+        socket.onmessage = (event) => {
+
+            try {
+
+                const message =
+                    JSON.parse(
+                        event.data
+                    );
+
+
+                if (
+                    message.type !==
+                    "candle"
+                ) {
+
+                    return;
+                }
+
+
+                const close =
+                    Number(
+                        message.data?.close
+                    );
+
+
+                if (
+                    Number.isFinite(
+                        close
+                    )
+                ) {
+
+                    setCurrentPrice(
+                        close
+                    );
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Prediction price error:",
+                    error
+                );
+            }
+        };
+
+
+        socket.onerror = (error) => {
+
+            console.error(
+                "Prediction WebSocket error:",
+                error
+            );
+        };
+
+
+        return () => {
+
+            socket.close();
+
+        };
+
+    }, []);
+
 
     return (
         <section className="glass-panel prediction-panel">
-
-            {/* =========================================
-                HEADER
-            ========================================= */}
 
             <div className="panel-header">
 
@@ -29,38 +108,47 @@ function PredictionPanel() {
                 </div>
 
 
-                {/* =========================================
-                    MODEL SELECT
-                ========================================= */}
+                <div className="model-selector">
 
-                <select
-                    value={selectedModel}
-                    onChange={(event) =>
-                        setSelectedModel(
-                            event.target.value
-                        )
-                    }
-                    className="model-select"
-                >
-
-                    <option value="Chronos-2">
+                    <button
+                        type="button"
+                        className={
+                            selectedModel === "Chronos-2"
+                                ? "model-button active"
+                                : "model-button"
+                        }
+                        onClick={() =>
+                            setSelectedModel(
+                                "Chronos-2"
+                            )
+                        }
+                    >
                         Chronos-2
-                    </option>
+                    </button>
 
-                    <option value="TimesFM">
+
+                    <button
+                        type="button"
+                        className={
+                            selectedModel === "TimesFM"
+                                ? "model-button active"
+                                : "model-button"
+                        }
+                        onClick={() =>
+                            setSelectedModel(
+                                "TimesFM"
+                            )
+                        }
+                    >
                         TimesFM
-                    </option>
+                    </button>
 
-                </select>
+                </div>
 
             </div>
 
 
-            {/* =========================================
-                PREDICTION PLACEHOLDER
-            ========================================= */}
-
-            <div className="prediction-placeholder">
+            <div className="prediction-content">
 
                 <div className="prediction-icon">
                     ✦
@@ -68,58 +156,144 @@ function PredictionPanel() {
 
 
                 <h3>
-                    {selectedModel}
+                    BTC Prediction
                 </h3>
 
 
-                <p>
-                    AI-powered market predictions
-                    will appear here.
-                </p>
-
-
-                {/* =========================================
-                    MODEL STATUS
-                ========================================= */}
-
-                <div className="model-status">
-
-                    <span className="status-dot" />
+                <div className="prediction-model">
 
                     <span>
-                        Model not connected
+                        Model:
+                    </span>
+
+                    <strong>
+                        {selectedModel}
+                    </strong>
+
+                </div>
+
+
+                <div className="prediction-status">
+
+                    <span className="status-dot connected" />
+
+                    <span>
+                        Connected
                     </span>
 
                 </div>
 
 
-                {/* =========================================
-                    PREDICTION STATS
-                ========================================= */}
+                <div className="signal-card">
 
-                <div className="prediction-stats">
+                    <span className="signal-label">
+                        Signal
+                    </span>
 
-                    <div>
 
-                        <span>
-                            Signal
+                    <div className="signal-value">
+
+                        <span className="signal-arrow">
+                            ▲
                         </span>
 
-                        <strong>
-                            —
-                        </strong>
+                        BULLISH
 
                     </div>
 
 
-                    <div>
+                    <div className="confidence">
 
                         <span>
                             Confidence
                         </span>
 
                         <strong>
-                            —
+                            78.4%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div className="forecast-value">
+
+                    <span>
+                        Prediction
+                    </span>
+
+                    <strong>
+                        $118,420
+                    </strong>
+
+                </div>
+
+
+                <div className="forecast-grid">
+
+                    {/* =====================================
+                        CURRENT PRICE
+                    ===================================== */}
+
+                    <div className="forecast-item">
+
+                        <span>
+                            Current Price
+                        </span>
+
+                        <strong>
+
+                            {currentPrice !== null
+                                ? `$${currentPrice.toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                )}`
+                                : "—"
+                            }
+
+                        </strong>
+
+                    </div>
+
+
+                    <div className="forecast-item">
+
+                        <span>
+                            Expected Change
+                        </span>
+
+                        <strong className="positive">
+                            +0.47%
+                        </strong>
+
+                    </div>
+
+
+                    <div className="forecast-item">
+
+                        <span>
+                            Forecast Horizon
+                        </span>
+
+                        <strong>
+                            15 min
+                        </strong>
+
+                    </div>
+
+
+                    <div className="forecast-item">
+
+                        <span>
+                            Updated
+                        </span>
+
+                        <strong>
+                            10s ago
                         </strong>
 
                     </div>
