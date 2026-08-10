@@ -1,17 +1,11 @@
-import Header from "../../common/components/Header/Header";
-
 import ChartPanel from "./components/ChartPanel";
 import PredictionPanel from "./components/PredictionPanel";
 
 import "./styles/home.css";
 
 function HomePage() {
-
     return (
-
         <div className="home-layout">
-
-            <Header />
 
             <main className="home-main">
 
@@ -34,7 +28,6 @@ function HomePage() {
             </footer>
 
         </div>
-
     );
 }
 

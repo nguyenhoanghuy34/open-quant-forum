@@ -14,11 +14,14 @@ import AboutPage from "../features/about/AboutPage";
 
 import ProtectedRoute from "./ProtectedRoute";
 
+import Header from "../common/components/Header/Header";
+
 
 function AppRouter() {
-
     return (
         <BrowserRouter>
+
+            <Header />
 
             <Routes>
 
@@ -92,6 +95,5 @@ function AppRouter() {
         </BrowserRouter>
     );
 }
-
 
 export default AppRouter;
