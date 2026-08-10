@@ -1,16 +1,17 @@
-import Navbar from "./components/Navbar";
+import Header from "../../common/components/Header/Header";
+
 import ChartPanel from "./components/ChartPanel";
 import PredictionPanel from "./components/PredictionPanel";
-import Footer from "./components/Footer";
 
 import "./styles/home.css";
 
-
 function HomePage() {
+
     return (
+
         <div className="home-layout">
 
-            <Navbar />
+            <Header />
 
             <main className="home-main">
 
@@ -20,11 +21,21 @@ function HomePage() {
 
             </main>
 
-            <Footer />
+            <footer className="home-footer">
+
+                <span>
+                    Open Quant
+                </span>
+
+                <span>
+                    Market Intelligence Platform
+                </span>
+
+            </footer>
 
         </div>
+
     );
 }
-
 
 export default HomePage;

@@ -1,38 +1,95 @@
-import { User } from "lucide-react";
-
-import { useAuthContext } from "../../auth/context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 
 function Navbar() {
 
-    const { user } = useAuthContext();
-
     return (
-        <header className="home-navbar">
+        <nav className="navbar">
 
-            <div className="home-logo">
+            {/* =========================================
+                LOGO
+            ========================================= */}
+
+            <div className="navbar-logo">
+
                 <span className="logo-mark">
-                    OQ
+                    ✦
                 </span>
 
                 <span className="logo-text">
-                    Open Quant Forum
+                    Open Quant
                 </span>
+
             </div>
 
 
-            <button
-                className="user-avatar"
-                type="button"
-            >
-                {user?.username
-                    ?.charAt(0)
-                    ?.toUpperCase() || (
-                        <User size={18} />
-                    )}
-            </button>
+            {/* =========================================
+                NAVIGATION
+            ========================================= */}
 
-        </header>
+            <div className="navbar-nav">
+
+                <NavLink
+                    to="/home"
+                    className={({ isActive }) =>
+                        `nav-link ${
+                            isActive
+                                ? "active"
+                                : ""
+                        }`
+                    }
+                >
+                    Home
+                </NavLink>
+
+
+                <NavLink
+                    to="/news"
+                    className={({ isActive }) =>
+                        `nav-link ${
+                            isActive
+                                ? "active"
+                                : ""
+                        }`
+                    }
+                >
+                    News
+                </NavLink>
+
+
+                <NavLink
+                    to="/about"
+                    className={({ isActive }) =>
+                        `nav-link ${
+                            isActive
+                                ? "active"
+                                : ""
+                        }`
+                    }
+                >
+                    About Us
+                </NavLink>
+
+            </div>
+
+
+            {/* =========================================
+                USER AVATAR
+            ========================================= */}
+
+            <div className="navbar-user">
+
+                <button
+                    type="button"
+                    className="user-avatar"
+                    aria-label="User menu"
+                >
+                    U
+                </button>
+
+            </div>
+
+        </nav>
     );
 }
 

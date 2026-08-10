@@ -1,3 +1,7 @@
+/* =========================================================
+   HOME LAYOUT
+========================================================= */
+
 .home-layout {
     min-height: 100vh;
 
@@ -21,103 +25,9 @@
 }
 
 
-/* =========================
-   NAVBAR
-========================= */
-
-.home-navbar {
-    height: 72px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 32px;
-
-    border-bottom:
-        1px solid rgba(255, 255, 255, 0.07);
-
-    background:
-        rgba(9, 9, 11, 0.72);
-
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-
-    position: sticky;
-    top: 0;
-    z-index: 20;
-}
-
-
-.home-logo {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-
-    font-weight: 600;
-}
-
-
-.logo-mark {
-    width: 34px;
-    height: 34px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 10px;
-
-    background:
-        rgba(255, 255, 255, 0.09);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.12);
-
-    font-size: 12px;
-    font-weight: 700;
-}
-
-
-.logo-text {
-    font-size: 15px;
-    letter-spacing: -0.2px;
-}
-
-
-.user-avatar {
-    width: 38px;
-    height: 38px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    border:
-        1px solid rgba(255, 255, 255, 0.12);
-
-    background:
-        rgba(255, 255, 255, 0.07);
-
-    color: #fff;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-
-.user-avatar:hover {
-    background:
-        rgba(255, 255, 255, 0.13);
-}
-
-
-/* =========================
+/* =========================================================
    MAIN
-========================= */
+========================================================= */
 
 .home-main {
     flex: 1;
@@ -136,12 +46,14 @@
         minmax(320px, 0.85fr);
 
     gap: 24px;
+
+    box-sizing: border-box;
 }
 
 
-/* =========================
+/* =========================================================
    GLASS PANEL
-========================= */
+========================================================= */
 
 .glass-panel {
     min-height: 620px;
@@ -161,8 +73,14 @@
 
     box-shadow:
         0 24px 70px rgba(0, 0, 0, 0.25);
+
+    box-sizing: border-box;
 }
 
+
+/* =========================================================
+   PANEL HEADER
+========================================================= */
 
 .panel-header {
     display: flex;
@@ -197,6 +115,11 @@
     letter-spacing: -0.5px;
 }
 
+
+/* =========================================================
+   TIMEFRAME NAVIGATION
+========================================================= */
+
 .timeframe-nav {
     display: flex;
 
@@ -217,6 +140,8 @@
     overflow-x: auto;
 
     scrollbar-width: none;
+
+    flex-shrink: 0;
 }
 
 
@@ -270,6 +195,10 @@
 }
 
 
+/* =========================================================
+   COMING SOON
+========================================================= */
+
 .coming-soon {
     padding: 6px 9px;
 
@@ -287,9 +216,9 @@
 }
 
 
-/* =========================
+/* =========================================================
    CHART
-========================= */
+========================================================= */
 
 .chart-placeholder {
     height: 500px;
@@ -310,8 +239,19 @@
 }
 
 
+.candlestick-chart {
+    width: 100%;
+    height: 500px;
+}
+
+
+/* =========================================================
+   CHART GRID
+========================================================= */
+
 .placeholder-grid {
     position: absolute;
+
     inset: 0;
 
     background-image:
@@ -336,6 +276,10 @@
 }
 
 
+/* =========================================================
+   CHART PLACEHOLDER
+========================================================= */
+
 .placeholder-content {
     position: absolute;
 
@@ -357,6 +301,7 @@
     height: 54px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -398,163 +343,9 @@
 }
 
 
-/* =========================
-   PREDICTION
-========================= */
-
-.prediction-panel {
-    display: flex;
-    flex-direction: column;
-}
-
-
-.prediction-placeholder {
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-}
-
-
-.prediction-stats {
-    width: 100%;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-
-    gap: 10px;
-
-    margin-top: 32px;
-}
-
-
-.prediction-stats > div {
-    padding: 14px;
-
-    text-align: left;
-
-    border:
-        1px solid rgba(255, 255, 255, 0.06);
-
-    border-radius: 14px;
-
-    background:
-        rgba(255, 255, 255, 0.025);
-}
-
-
-.prediction-stats span {
-    display: block;
-
-    margin-bottom: 7px;
-
-    color: #71717a;
-
-    font-size: 10px;
-}
-
-
-.prediction-stats strong {
-    font-size: 18px;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-.home-footer {
-    min-height: 58px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 32px;
-
-    border-top:
-        1px solid rgba(255, 255, 255, 0.06);
-
-    color: #52525b;
-
-    font-size: 11px;
-}
-
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 900px) {
-
-    .home-main {
-        grid-template-columns: 1fr;
-    }
-
-    .glass-panel {
-        min-height: 500px;
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .home-navbar {
-        padding: 0 18px;
-    }
-
-    .logo-text {
-        display: none;
-    }
-
-    .home-main {
-        padding: 18px;
-
-        gap: 18px;
-    }
-
-    .glass-panel {
-        padding: 18px;
-    }
-
-    .chart-placeholder {
-        min-height: 400px;
-    }
-
-    .home-footer {
-        padding: 0 18px;
-    }
-
-}
-
-
-@media (max-width: 700px) {
-
-    .panel-header {
-        flex-direction: column;
-    }
-
-    .timeframe-nav {
-        width: 100%;
-    }
-
-    .timeframe-button {
-        flex: 1;
-    }
-
-}
-
-
-.candlestick-chart {
-    width: 100%;
-    height: 500px;
-}
+/* =========================================================
+   CHART COMING SOON
+========================================================= */
 
 .chart-coming-soon {
     position: absolute;
@@ -562,6 +353,7 @@
     inset: 0;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
@@ -576,6 +368,7 @@
     height: 54px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -631,9 +424,167 @@
 }
 
 
-/* =========================================
+/* =========================================================
+   PREDICTION PANEL
+========================================================= */
+
+.prediction-panel {
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+.prediction-placeholder {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.prediction-content {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 24px 20px 20px;
+
+    text-align: center;
+
+    box-sizing: border-box;
+}
+
+
+.prediction-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    color: #fafafa;
+
+    font-size: 20px;
+}
+
+
+.prediction-content h3 {
+    margin: 0;
+
+    color: #fafafa;
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MODEL
+========================================================= */
+
+.prediction-model {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    margin-top: 8px;
+
+    color: #71717a;
+
+    font-size: 12px;
+}
+
+
+.prediction-model strong {
+    color: #a1a1aa;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   MODEL STATUS
+========================================================= */
+
+.model-status {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    margin-top: 18px;
+
+    color: #71717a;
+
+    font-size: 12px;
+}
+
+
+.prediction-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 6px;
+
+    color: #a1a1aa;
+
+    font-size: 12px;
+}
+
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #52525b;
+}
+
+
+.status-dot.connected {
+    background: #22c55e;
+
+    box-shadow:
+        0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+
+/* =========================================================
    MODEL SELECT
-========================================= */
+========================================================= */
 
 .model-select {
     appearance: none;
@@ -642,9 +593,10 @@
 
     padding: 7px 30px 7px 10px;
 
-    border-radius: 8px;
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
 
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
 
     background:
         rgba(255, 255, 255, 0.04);
@@ -652,7 +604,6 @@
     color: #fafafa;
 
     font-size: 12px;
-
     font-weight: 500;
 
     outline: none;
@@ -687,161 +638,73 @@
 }
 
 
-/* =========================================
-   MODEL STATUS
-========================================= */
+/* =========================================================
+   MODEL BUTTONS
+========================================================= */
 
-.model-status {
+.model-selector {
     display: flex;
 
     align-items: center;
 
-    justify-content: center;
+    gap: 4px;
 
-    gap: 7px;
-
-    margin-top: 18px;
-
-    font-size: 12px;
-
-    color: #71717a;
-}
-
-
-.status-dot {
-    width: 6px;
-
-    height: 6px;
-
-    border-radius: 50%;
-
-    background: #52525b;
-}
-
-
- /* =========================================
-    PREDICTION PANEL
- ========================================= */
-
-.prediction-panel {
-    overflow: hidden;
-}
-
-
-.prediction-content {
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    padding: 24px 20px 20px;
-
-    text-align: center;
-}
-
-
-.prediction-icon {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 42px;
-
-    height: 42px;
-
-    margin-bottom: 12px;
-
-    border-radius: 12px;
-
-    background:
-        rgba(255, 255, 255, 0.05);
+    padding: 3px;
 
     border:
-        1px solid rgba(255, 255, 255, 0.08);
+        1px solid rgba(255, 255, 255, 0.07);
 
-    color: #fafafa;
+    border-radius: 9px;
 
-    font-size: 20px;
+    background:
+        rgba(255, 255, 255, 0.035);
 }
 
 
-.prediction-content h3 {
-    margin: 0;
+.model-button {
+    padding: 6px 9px;
 
-    font-size: 18px;
+    border: none;
 
-    font-weight: 600;
+    border-radius: 6px;
 
-    color: #fafafa;
-}
-
-
-/* =========================================
-   MODEL
-========================================= */
-
-.prediction-model {
-    display: flex;
-
-    align-items: center;
-
-    gap: 5px;
-
-    margin-top: 8px;
-
-    font-size: 12px;
+    background: transparent;
 
     color: #71717a;
-}
 
-
-.prediction-model strong {
-    color: #a1a1aa;
-
+    font-size: 11px;
     font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
 }
 
 
-.prediction-status {
-    display: flex;
+.model-button:hover {
+    color: #d4d4d8;
 
-    align-items: center;
-
-    gap: 6px;
-
-    margin-top: 6px;
-
-    font-size: 12px;
-
-    color: #a1a1aa;
+    background:
+        rgba(255, 255, 255, 0.04);
 }
 
 
-.status-dot {
-    width: 6px;
+.model-button.active {
+    color: #fafafa;
 
-    height: 6px;
-
-    border-radius: 50%;
-
-    background: #52525b;
-}
-
-
-.status-dot.connected {
-    background: #22c55e;
+    background:
+        rgba(255, 255, 255, 0.09);
 
     box-shadow:
-        0 0 8px rgba(34, 197, 94, 0.5);
+        0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 
-/* =========================================
+/* =========================================================
    SIGNAL CARD
-========================================= */
+========================================================= */
 
 .signal-card {
     width: 100%;
@@ -849,6 +712,8 @@
     margin-top: 22px;
 
     padding: 16px;
+
+    box-sizing: border-box;
 
     border-radius: 12px;
 
@@ -865,9 +730,9 @@
 .signal-label {
     display: block;
 
-    font-size: 11px;
-
     color: #71717a;
+
+    font-size: 11px;
 
     text-transform: uppercase;
 
@@ -879,18 +744,16 @@
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 7px;
 
     margin: 12px 0 16px;
 
-    font-size: 17px;
-
-    font-weight: 700;
-
     color: #22c55e;
+
+    font-size: 17px;
+    font-weight: 700;
 }
 
 
@@ -903,7 +766,6 @@
     display: flex;
 
     align-items: center;
-
     justify-content: space-between;
 
     padding-top: 12px;
@@ -911,9 +773,9 @@
     border-top:
         1px solid rgba(255, 255, 255, 0.06);
 
-    font-size: 12px;
-
     color: #71717a;
+
+    font-size: 12px;
 }
 
 
@@ -924,9 +786,9 @@
 }
 
 
-/* =========================================
-   MAIN FORECAST
-========================================= */
+/* =========================================================
+   FORECAST VALUE
+========================================================= */
 
 .forecast-value {
     width: 100%;
@@ -942,9 +804,9 @@
 
     margin-bottom: 5px;
 
-    font-size: 11px;
-
     color: #71717a;
+
+    font-size: 11px;
 
     text-transform: uppercase;
 
@@ -953,19 +815,18 @@
 
 
 .forecast-value strong {
-    font-size: 27px;
+    color: #fafafa;
 
+    font-size: 27px;
     font-weight: 600;
 
     letter-spacing: -0.02em;
-
-    color: #fafafa;
 }
 
 
-/* =========================================
+/* =========================================================
    FORECAST GRID
-========================================= */
+========================================================= */
 
 .forecast-grid {
     display: grid;
@@ -1003,18 +864,17 @@
 
     margin-bottom: 5px;
 
-    font-size: 10px;
-
     color: #71717a;
+
+    font-size: 10px;
 }
 
 
 .forecast-item strong {
-    font-size: 13px;
-
-    font-weight: 500;
-
     color: #d4d4d8;
+
+    font-size: 13px;
+    font-weight: 500;
 }
 
 
@@ -1023,66 +883,139 @@
 }
 
 
-/* =========================================
-   MODEL BUTTONS
-========================================= */
+/* =========================================================
+   PREDICTION STATS
+========================================================= */
 
-.model-selector {
-    display: flex;
+.prediction-stats {
+    width: 100%;
 
-    align-items: center;
+    display: grid;
 
-    gap: 4px;
+    grid-template-columns: 1fr 1fr;
 
-    padding: 3px;
+    gap: 10px;
 
-    border-radius: 9px;
-
-    background:
-        rgba(255, 255, 255, 0.035);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.07);
+    margin-top: 32px;
 }
 
 
-.model-button {
-    padding: 6px 9px;
+.prediction-stats > div {
+    padding: 14px;
 
-    border: none;
+    text-align: left;
 
-    border-radius: 6px;
+    border:
+        1px solid rgba(255, 255, 255, 0.06);
 
-    background: transparent;
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    box-sizing: border-box;
+}
+
+
+.prediction-stats span {
+    display: block;
+
+    margin-bottom: 7px;
 
     color: #71717a;
 
+    font-size: 10px;
+}
+
+
+.prediction-stats strong {
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.home-footer {
+    min-height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 32px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.06);
+
+    color: #52525b;
+
     font-size: 11px;
 
-    font-weight: 500;
-
-    cursor: pointer;
-
-    transition:
-        background 0.15s ease,
-        color 0.15s ease;
+    box-sizing: border-box;
 }
 
 
-.model-button:hover {
-    color: #d4d4d8;
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-    background:
-        rgba(255, 255, 255, 0.04);
+@media (max-width: 900px) {
+
+    .home-main {
+        grid-template-columns: 1fr;
+    }
+
+
+    .glass-panel {
+        min-height: 500px;
+    }
+
 }
 
 
-.model-button.active {
-    color: #fafafa;
+@media (max-width: 700px) {
 
-    background:
-        rgba(255, 255, 255, 0.09);
+    .panel-header {
+        flex-direction: column;
+    }
 
-    box-shadow:
-        0 1px 4px rgba(0, 0, 0, 0.25);
+
+    .timeframe-nav {
+        width: 100%;
+    }
+
+
+    .timeframe-button {
+        flex: 1;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .home-main {
+        padding: 18px;
+
+        gap: 18px;
+    }
+
+
+    .glass-panel {
+        padding: 18px;
+    }
+
+
+    .chart-placeholder {
+        min-height: 400px;
+    }
+
+
+    .home-footer {
+        padding: 0 18px;
+    }
+
 }
