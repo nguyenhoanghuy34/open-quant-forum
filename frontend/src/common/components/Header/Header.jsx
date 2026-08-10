@@ -3,27 +3,25 @@ import { NavLink } from "react-router-dom";
 import "./Header.css";
 
 function Header() {
-
     return (
-
         <header className="app-header">
 
+            {/* LOGO */}
             <NavLink
                 to="/home"
                 className="app-header-logo"
             >
-
                 <span className="app-header-logo-mark">
-                    ✦
+                    OQF
                 </span>
 
                 <span className="app-header-logo-text">
                     Open Quant
                 </span>
-
             </NavLink>
 
 
+            {/* NAVIGATION */}
             <nav className="app-header-nav">
 
                 <NavLink
@@ -37,6 +35,7 @@ function Header() {
                     Home
                 </NavLink>
 
+
                 <NavLink
                     to="/news"
                     className={({ isActive }) =>
@@ -47,6 +46,7 @@ function Header() {
                 >
                     News
                 </NavLink>
+
 
                 <NavLink
                     to="/about"
@@ -62,6 +62,7 @@ function Header() {
             </nav>
 
 
+            {/* USER */}
             <div className="app-header-user">
 
                 <button
@@ -75,7 +76,6 @@ function Header() {
             </div>
 
         </header>
-
     );
 }
 
