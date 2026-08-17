@@ -3,6 +3,7 @@
 ========================================= */
 
 .news-layout {
+
     min-height: 100vh;
 
     display: flex;
@@ -30,14 +31,16 @@
 ========================================= */
 
 .news-main {
+
     flex: 1;
 
     width: 100%;
-    max-width: 1250px;
+
+    max-width: 1400px;
 
     margin: 0 auto;
 
-    padding: 56px 32px 70px;
+    padding: 48px 32px 60px;
 
     box-sizing: border-box;
 }
@@ -47,12 +50,14 @@
    PAGE HEADER
 ========================================= */
 
-.news-heading {
-    margin-bottom: 40px;
+.news-page-header {
+
+    margin-bottom: 36px;
 }
 
 
-.news-label {
+.news-eyebrow {
+
     display: block;
 
     margin-bottom: 10px;
@@ -60,24 +65,28 @@
     color: #71717a;
 
     font-size: 10px;
+
     font-weight: 700;
 
     letter-spacing: 1.6px;
 }
 
 
-.news-heading h1 {
+.news-page-header h1 {
+
     margin: 0;
 
-    font-size: 34px;
+    font-size: 32px;
+
     font-weight: 600;
 
     letter-spacing: -1px;
 }
 
 
-.news-heading p {
-    max-width: 650px;
+.news-page-header p {
+
+    max-width: 620px;
 
     margin: 10px 0 0;
 
@@ -90,14 +99,16 @@
 
 
 /* =========================================
-   NEWS BODY
+   BODY
 ========================================= */
 
 .news-body {
+
     display: grid;
 
     grid-template-columns:
-        220px minmax(0, 1fr);
+        220px
+        minmax(0, 1fr);
 
     gap: 24px;
 
@@ -110,11 +121,12 @@
 ========================================= */
 
 .news-sidebar {
+
     position: sticky;
 
     top: 96px;
 
-    padding: 14px;
+    padding: 16px;
 
     border:
         1px solid rgba(255, 255, 255, 0.07);
@@ -122,41 +134,58 @@
     border-radius: 18px;
 
     background:
-        rgba(24, 24, 27, 0.48);
+        rgba(24, 24, 27, 0.50);
 
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.18);
 }
 
 
 .news-sidebar-title {
-    padding: 8px 10px 12px;
+
+    padding: 4px 10px 12px;
 
     color: #52525b;
 
     font-size: 9px;
+
     font-weight: 700;
 
     letter-spacing: 1.4px;
 }
 
 
+.news-sidebar-menu {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
 .news-sidebar-item {
+
     width: 100%;
 
     display: flex;
 
-    align-items: center;
+    flex-direction: column;
 
-    gap: 10px;
+    align-items: flex-start;
 
-    padding: 11px 10px;
+    gap: 4px;
 
-    margin-bottom: 4px;
+    padding: 12px 10px;
 
     border: none;
 
-    border-radius: 9px;
+    border-radius: 10px;
 
     background: transparent;
 
@@ -164,74 +193,52 @@
 
     text-align: left;
 
-    font-family: inherit;
-
-    font-size: 12px;
-    font-weight: 500;
-
     cursor: pointer;
 
     transition:
-        color 0.15s ease,
-        background 0.15s ease;
-}
-
-
-.news-sidebar-item:last-child {
-    margin-bottom: 0;
+        background 0.15s ease,
+        color 0.15s ease;
 }
 
 
 .news-sidebar-item:hover {
-    color: #d4d4d8;
 
     background:
         rgba(255, 255, 255, 0.04);
+
+    color: #d4d4d8;
 }
 
 
 .news-sidebar-item.active {
-    color: #fafafa;
 
     background:
-        rgba(255, 255, 255, 0.075);
+        rgba(255, 255, 255, 0.08);
 
-    box-shadow:
-        inset 0 0 0 1px
-        rgba(255, 255, 255, 0.04);
+    color: #fafafa;
 }
 
 
-.sidebar-dot {
-    width: 24px;
-    height: 24px;
+.news-sidebar-item-label {
 
-    display: flex;
+    font-size: 12px;
 
-    align-items: center;
-    justify-content: center;
+    font-weight: 500;
+}
 
-    flex-shrink: 0;
 
-    border:
-        1px solid rgba(255, 255, 255, 0.07);
+.news-sidebar-item-description {
 
-    border-radius: 7px;
+    color: #52525b;
 
-    background:
-        rgba(255, 255, 255, 0.035);
+    font-size: 10px;
+}
+
+
+.news-sidebar-item.active
+.news-sidebar-item-description {
 
     color: #71717a;
-
-    font-size: 11px;
-}
-
-
-.news-sidebar-item.active .sidebar-dot {
-    color: #fafafa;
-
-    background:
-        rgba(255, 255, 255, 0.07);
 }
 
 
@@ -240,30 +247,35 @@
 ========================================= */
 
 .news-content {
+
     min-width: 0;
 }
 
 
 .news-content-header {
+
     display: flex;
 
-    align-items: flex-start;
+    align-items: flex-end;
+
     justify-content: space-between;
 
     gap: 20px;
 
-    margin-bottom: 22px;
+    margin-bottom: 16px;
 }
 
 
-.news-content-label {
+.news-content-eyebrow {
+
     display: block;
 
-    margin-bottom: 7px;
+    margin-bottom: 5px;
 
-    color: #71717a;
+    color: #52525b;
 
     font-size: 9px;
+
     font-weight: 700;
 
     letter-spacing: 1.4px;
@@ -271,57 +283,36 @@
 
 
 .news-content-header h2 {
+
     margin: 0;
 
-    font-size: 22px;
+    font-size: 20px;
+
     font-weight: 600;
 
     letter-spacing: -0.5px;
 }
 
 
-.news-content-header p {
-    max-width: 600px;
-
-    margin: 8px 0 0;
-
-    color: #71717a;
-
-    font-size: 12px;
-
-    line-height: 1.6;
-}
-
-
 .news-count {
-    flex-shrink: 0;
-
-    padding: 6px 9px;
-
-    border:
-        1px solid rgba(255, 255, 255, 0.07);
-
-    border-radius: 8px;
-
-    background:
-        rgba(255, 255, 255, 0.03);
 
     color: #52525b;
 
-    font-size: 10px;
+    font-size: 11px;
 }
 
 
 /* =========================================
-   NEWS GRID
+   NEWS LIST
 ========================================= */
 
-.news-grid {
+.news-list {
+
     display: flex;
 
     flex-direction: column;
 
-    gap: 14px;
+    gap: 12px;
 }
 
 
@@ -330,28 +321,23 @@
 ========================================= */
 
 .news-card {
-    min-height: 210px;
 
-    display: flex;
-    flex-direction: column;
-
-    padding: 22px;
-
-    box-sizing: border-box;
+    padding: 20px;
 
     border:
-        1px solid rgba(255, 255, 255, 0.075);
+        1px solid rgba(255, 255, 255, 0.07);
 
     border-radius: 18px;
 
     background:
-        rgba(24, 24, 27, 0.55);
+        rgba(24, 24, 27, 0.50);
 
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
 
     box-shadow:
-        0 18px 50px rgba(0, 0, 0, 0.18);
+        0 18px 50px rgba(0, 0, 0, 0.15);
 
     transition:
         transform 0.2s ease,
@@ -361,13 +347,14 @@
 
 
 .news-card:hover {
+
     transform: translateY(-2px);
 
     border-color:
         rgba(255, 255, 255, 0.12);
 
     background:
-        rgba(30, 30, 34, 0.64);
+        rgba(30, 30, 33, 0.62);
 }
 
 
@@ -376,36 +363,35 @@
 ========================================= */
 
 .news-card-top {
+
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
-    margin-bottom: 17px;
+    gap: 12px;
+
+    margin-bottom: 12px;
 }
 
 
-.news-category {
-    padding: 5px 8px;
-
-    border:
-        1px solid rgba(255, 255, 255, 0.075);
-
-    border-radius: 7px;
-
-    background:
-        rgba(255, 255, 255, 0.035);
+.news-card-category {
 
     color: #a1a1aa;
 
-    font-size: 9px;
-    font-weight: 700;
+    font-size: 10px;
 
-    letter-spacing: 0.7px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
 }
 
 
-.news-time {
+.news-card-time {
+
     color: #52525b;
 
     font-size: 10px;
@@ -413,15 +399,17 @@
 
 
 /* =========================================
-   TITLE
+   CARD TITLE
 ========================================= */
 
-.news-title {
+.news-card-title {
+
     margin: 0;
 
-    color: #f4f4f5;
+    color: #fafafa;
 
     font-size: 17px;
+
     font-weight: 600;
 
     line-height: 1.4;
@@ -431,13 +419,14 @@
 
 
 /* =========================================
-   SUMMARY
+   CARD DESCRIPTION
 ========================================= */
 
-.news-summary {
-    max-width: 750px;
+.news-card-description {
 
-    margin: 10px 0 0;
+    max-width: 850px;
+
+    margin: 9px 0 18px;
 
     color: #71717a;
 
@@ -452,16 +441,19 @@
 ========================================= */
 
 .news-card-footer {
+
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
-    margin-top: auto;
-    padding-top: 20px;
+    gap: 16px;
+
+    padding-top: 13px;
 
     border-top:
-        1px solid rgba(255, 255, 255, 0.05);
+        1px solid rgba(255, 255, 255, 0.06);
 
     color: #52525b;
 
@@ -469,21 +461,28 @@
 }
 
 
-.news-arrow {
+.news-read-button {
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
     color: #a1a1aa;
 
-    font-size: 15px;
+    font-size: 10px;
+
+    cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        color 0.2s ease;
+        color 0.15s ease;
 }
 
 
-.news-card:hover .news-arrow {
-    color: #fafafa;
+.news-read-button:hover {
 
-    transform: translateX(3px);
+    color: #fafafa;
 }
 
 
@@ -492,11 +491,13 @@
 ========================================= */
 
 .news-footer {
+
     min-height: 58px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     padding: 0 32px;
@@ -518,44 +519,27 @@
 
 @media (max-width: 800px) {
 
-    .news-main {
-        padding: 45px 24px 60px;
-    }
-
-
     .news-body {
+
         grid-template-columns: 1fr;
+
     }
 
 
     .news-sidebar {
+
         position: static;
 
-        display: flex;
-
-        align-items: center;
-
-        gap: 4px;
-
-        overflow-x: auto;
-
-        padding: 8px;
     }
 
 
-    .news-sidebar-title {
-        display: none;
-    }
+    .news-sidebar-menu {
 
+        display: grid;
 
-    .news-sidebar-item {
-        width: auto;
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
 
-        flex-shrink: 0;
-
-        margin: 0;
-
-        padding: 9px 11px;
     }
 
 }
@@ -564,32 +548,59 @@
 @media (max-width: 600px) {
 
     .news-main {
-        padding: 40px 18px 50px;
+
+        padding: 32px 18px 40px;
+
     }
 
 
-    .news-heading h1 {
+    .news-page-header h1 {
+
         font-size: 28px;
+
+    }
+
+
+    .news-sidebar-menu {
+
+        grid-template-columns: 1fr;
+
     }
 
 
     .news-content-header {
+
+        align-items: flex-start;
+
         flex-direction: column;
-    }
 
+        gap: 6px;
 
-    .news-count {
-        align-self: flex-start;
     }
 
 
     .news-card {
-        padding: 18px;
+
+        padding: 16px;
+
+    }
+
+
+    .news-card-footer {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 8px;
+
     }
 
 
     .news-footer {
+
         padding: 0 18px;
+
     }
 
 }
