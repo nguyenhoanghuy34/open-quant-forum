@@ -7,8 +7,6 @@ function AboutPage() {
     return (
         <div className="about-layout">
 
-            <Header />
-
 
             {/* =========================================
                 HERO
